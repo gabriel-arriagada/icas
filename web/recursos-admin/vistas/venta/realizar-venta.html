@@ -1,0 +1,338 @@
+<style>
+    @media(min-width: 800px){
+        .container__{
+            padding-left: 12%;
+            padding-right: 12%;
+        }
+    }
+
+    @media(min-width: 1000px){
+        .container__{
+            padding-left: 15%;
+            padding-right: 15%;
+        }
+    }
+
+    @media(min-width: 800px){
+        .container__b{
+            padding-left: 15%;            
+        }
+    }
+
+    @media(min-width: 1000px){
+        .container__b{
+            padding-left: 15%;            
+        }
+    }
+</style>
+
+<md-card>
+    <md-card-header>
+        <md-card-avatar>
+            <md-icon class="md-avatar-icon" md-svg-icon="barcode"></md-icon>
+            <!--<img class="md-user-avatar" src="img/100-2.jpeg"/>-->
+        </md-card-avatar>
+        <md-card-header-text>
+            <span class="md-title">Vender</span>
+            <span class="md-subhead">nueva venta</span>
+        </md-card-header-text>
+        <div flex></div>
+        <md-button class="md-icon-button" ng-click="" aria-label="Búsqueda manual">
+            <md-icon md-svg-icon="buscar"></md-icon>
+        </md-button>
+    </md-card-header>
+    <md-tabs md-stretch-tabs="always" md-dynamic-height md-border-bottom  md-selected="vm.tabItems.itemSeleccionado" class="md-padding">
+
+        <!--INICIO ESCANEAR PRODUCTOS-->
+        <md-tab label="Escanear productos">
+            <ng-leer-codigo-barra data-method="vm.buscarProducto" info="vm.escanear" tabindex="1">                
+                <md-content class="md-padding" style="background-color: white !important;">                                       
+                    <md-toolbar class="md-table-toolbar md-default" ng-class="{esconder: vm.seleccionado.length > 0, mostrar: vm.seleccionado.length == 0}">
+                        <div class="md-toolbar-tools">
+                            <span style="font-size: 18px;">{{vm.textoScan}}  </span>
+                            <md-switch style="margin-left:10px;" ng-click="vm.enviarFocoTabVenta(vm.escanear)" ng-model="vm.escanear" aria-label="Escanear" ng-blur="vm.desenfocado()"></md-switch>
+                        </div>
+                    </md-toolbar>
+                    <md-toolbar class="md-table-toolbar alternate" ng-class="{mostrar: vm.seleccionado.length > 0, esconder: vm.seleccionado.length == 0}">
+                        <div class="md-toolbar-tools">
+                            <span>{{vm.seleccionado.length}} {{vm.seleccionado.length > 1 ? 'items seleccionados' : 'item seleccionado'}}</span>
+                            <div flex></div>
+                            <md-button class="md-icon-button" ng-click="vm.quitarProductoEscaneado()">
+                                <md-icon md-svg-icon="eliminar" aria-label="Eliminar"></md-icon>
+                            </md-button>
+                        </div>
+                    </md-toolbar>   
+                    <md-divider></md-divider>
+                    <md-table-container>
+                        <table md-table md-row-select multiple="true" ng-model="vm.seleccionado" md-progress="vm.promise">
+                            <thead md-head md-order="vm.query.order">
+                                <tr md-row>
+                                    <th md-column md-numeric md-order-by="idProducto"><span>Id</span></th>
+                                    <th md-column md-order-by="nombre" md-desc><span>Nombre</span></th>
+                                    <th md-column md-order-by="precio" md-desc><span>Precio</span></th>
+                                    <th md-column md-order-by="cantidad" md-desc><span>Cantidad</span></th>
+                                    <th md-column md-order-by="subTotal" md-desc><span>Sub total</span></th>
+                                </tr>
+                            </thead>
+                            <tbody md-body>
+                                <tr md-row md-select="detalle" md-on-select="vm.itemSeleccionado" md-auto-select ng-repeat="detalle in vm.detalles| orderBy: vm.query.order | limitTo: vm.query.limit : (vm.query.page - 1) * vm.query.limit" ng-class="{'stock-excedido': vm.excedidos[$index] == true, 'stock-correcto': vm.excedidos[$index] == false}">
+                                    <td md-cell>{{detalle.idProducto}}</td>
+                                    <td md-cell>{{detalle.nombre}}</td>
+                                    <td md-cell><span id="currency-default">{{detalle.precio| currency:$:0}}</span></td>
+                                    <td md-cell>{{detalle.cantidad}}</td>
+                                    <td md-cell><span id="currency-default">{{detalle.subTotal| currency:$:0}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
+                    <md-card-actions style="padding: 10px 12px 10px 12px;" ng-show="vm.detalles.length > 0" layout="row" layout-align="start center">
+                        <md-card-icon-actions>
+                            <md-button class="md-raised" ng-click="vm.avanzarDeTabItem(1)">Listo</md-button>
+                            <md-button type="button" ng-click="vm.cancelarVenta()" md-no-ink="md-no-ink">Cancelar</md-button>
+                        </md-card-icon-actions>
+                        <div style="font-size: 18px; color: grey;"><strong>Total: </strong><span id="currency-default">{{vm.total| currency:$:0}}</span></div>
+                    </md-card-actions>
+                </md-content>
+            </ng-leer-codigo-barra>
+        </md-tab>
+        <!--FIN ESCANEAR PRODUCTOS-->
+
+
+
+
+        <!--INICIO FORMAS DE PAGO-->
+        <md-tab label="Forma de pago" ng-disabled="vm.tabItems.formaDePagoDisabled">
+            <md-content class="md-padding" style="background-color: white !important;">
+                <h3 style="margin-left: 15px; font-weight: normal;">Selecciona una forma de pago</h3>
+                <md-divider></md-divider>
+                <md-radio-group ng-model="vm.idFormaDePagoSeleccionada" >
+                    <div ng-repeat='forma in vm.formasDePago' class="fila-forma-pago" ng-click="vm.setFormaDePago(forma.nombre)" style="outline: none;">
+                        <div flex layout='row' layout-padding layout-align="start center" >
+                            <div flex style="max-width:200px;">
+                                {{forma.descripcion}}
+                            </div>
+                            <md-radio-button flex
+                                             ng-disabled="vm.total < forma.minimo"
+                                             ng-value="forma.id"
+                                             class="md-primary" >
+                                {{forma.nombre}}
+                            </md-radio-button>
+                        </div>
+                    </div>
+                </md-radio-group>
+                <p>                
+                <md-button ng-show="vm.idFormaDePagoSeleccionada == 1 || vm.idFormaDePagoSeleccionada == 2 || vm.idFormaDePagoSeleccionada == 3" class="md-raised" ng-click="vm.avanzarDeTabItem(2)" type="button">Listo</md-button>
+                <md-button type="button" ng-click="vm.cancelarVenta()" md-no-ink="md-no-ink">Cancelar</md-button>
+                </p>
+            </md-content>
+        </md-tab>
+        <!--FIN FORMA DE PAGO-->
+
+
+
+
+
+
+        <!--INICIO FINALIZAR VENTA-->
+        <md-tab label="Finalizar {{vm.nombreFormaDePago}}" ng-disabled="vm.tabItems.finalizarDisabled">
+            <md-content class="md-padding" style="background-color: white !important;">                                               
+
+                <!--Inicio pago con cuenta prepago-->
+                <div ng-show="vm.idFormaDePagoSeleccionada == 1">
+                    <form name="form" ng-submit="vm.guardarVenta()">
+
+                        <div layout="row" layout-xs="column">  
+
+                            <div flex>           
+                                <md-card-content>  
+                                    <md-input-container md-no-float class="md-block">
+                                        <label>Ingrese el rut del cliente</label>
+                                        <md-icon md-svg-icon="cliente"></md-icon>
+                                        <input name="rutCliente" 
+                                               style="font-size: 22px;" 
+                                               maxlength="10" ng-model="vm.rutClientePrepago" 
+                                               ng-blur="vm.verificarRut()"                                
+                                               required>
+                                        <div ng-messages="form.rutCliente.$error" md-auto-hide="false" ng-show="form.rut.$touched">
+                                            <div ng-message="required">Debes ingresar un rut</div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container md-no-float class="md-block" flex-gt-sm>
+                                        <label>Total de la venta</label>
+                                        <md-icon md-svg-icon="moneda"></md-icon>
+                                        <input style="font-size: 22px;" ng-model="vm.total" readonly>
+                                    </md-input-container>
+                                </md-card-content>            
+                            </div>
+
+                            <div flex layout="row" layout-align="center center">            
+
+                                <div>                   
+                                    <md-icon md-svg-icon="clienteCirculo" style="{{vm.tallaIcono}}color: lightgray;"></md-icon>                                                
+                                    <md-progress-linear md-mode="indeterminate" ng-show="vm.buscandoCliente == true"></md-progress-linear>
+                                </div>
+
+                                <div ng-show="vm.clienteExiste == true">
+                                    <h3>{{vm.usuario.nombre}} {{vm.usuario.apellido}}</h3>
+                                    <h4>Saldo: {{vm.usuario.saldo| currency:$:0}}</h4>
+                                </div>
+                            </div>        
+
+                            <div flex layout="row" layout-align="center center" ng-show="vm.clienteExiste == true">
+                                <div ng-show="vm.saldoInsuficiente == true">
+                                    <p>El saldo del cliente es insuficiente para realizar la compra</p>
+                                </div>
+                                <md-input-container md-no-float class="md-block" style="width: 80%;" ng-show="vm.saldoInsuficiente == false">
+                                    <label>Nuevo saldo</label>
+                                    <md-icon md-svg-icon="moneda"></md-icon>
+                                    <input style="font-size: 22px;" required ng-model="vm.nuevoSaldo" type="number" maxlength="9" readonly>
+                                </md-input-container>
+                            </div>
+
+                        </div>
+                        <p>
+                        <md-button class="md-raised" type="submit" ng-disabled="form.$invalid" type="button">Guardar venta</md-button>
+                        <md-button type="button" ng-click="vm.cancelarVenta()" md-no-ink="md-no-ink">Cancelar</md-button>
+                        </p>
+                    </form>
+                </div>
+                <!--Fin pago con cuenta prepago-->
+
+
+                <!--Pago JUNAEB-->
+                <div ng-show="vm.idFormaDePagoSeleccionada == 2">
+                    <div class="container__" layout="row" layout-xs="column" layout-align='center center' style="margin-top: 20px;">
+
+                        <div flex='50' layout='column'>
+                            <md-card flex class="md-whiteframe-5dp">
+                                <div layout="column" layout-align="center center">
+                                    <div flex="50" layout="column" style="background-color: #BBDEFB; min-height: 200px; width: 100%;">
+                                        <md-icon                                     
+                                            md-svg-icon="clienteCirculo" 
+                                            style="width: 130px; height: 130px; color: #E3F2FD;" 
+                                            aria-label="rut_cliente">                                        
+                                        </md-icon>
+                                    </div>             
+                                </div>
+
+                                <md-card-title-text class='md-padding'>
+                                    <span class="md-headline">Rut cliente</span>
+                                </md-card-title-text>
+
+                                <md-card-content>    
+                                    <form name='formJUNAEB'>
+                                        <md-input-container class="md-block">
+                                            <label>Rut</label>                            
+                                            <input name="rutJUNAEB"                        
+                                                   style="font-size: 20px;"
+                                                   ng-pattern="/^[0-9]+-[0-9kK]{1}$/"
+                                                   min="10"
+                                                   maxlength="10" ng-model="vm.rutClienteJUNAEB" 
+                                                   valida-cliente
+                                                   valida-rut>
+                                            <div ng-messages="formJUNAEB.rutJUNAEB.$error" md-auto-hide="false" ng-show="formJUNAEB.rutJUNAEB.$touched" ng-messages-multiple>                                        
+                                                <div ng-message="rutInvalido">El rut no es válido.</div>                      
+                                                <div ng-message="clienteNoExiste">No hay clientes registrados con este rut.</div>                    
+                                                <div ng-message="min">Mínimo 10 caracteres</div>
+                                                <div ng-message="pattern">Debes ingresar un rut con el formato correcto.</div>                                                
+                                            </div>
+                                        </md-input-container>
+                                    </form>
+                                </md-card-content>                          
+
+                            </md-card>                       
+                            <div flex>
+                                <md-button ng-disabled="formJUNAEB.$invalid" class="md-raised md-primary" ng-click="vm.guardarVenta()" type="button">Guardar venta</md-button>
+                                <md-button class="md-raised" type="button" ng-click="vm.cancelarVenta()" md-no-ink="md-no-ink">Cancelar</md-button>                        
+                            </div>
+                        </div>                           
+
+                    </div>                                           
+                </div>              
+                <!--Fin JUNAEB-->
+
+
+
+
+                <!--Pago en efectivo-->
+                <div ng-show="vm.idFormaDePagoSeleccionada == 3">
+                    <div class="container__" layout="row" layout-xs="column" style="margin-top: 20px;">
+
+                        <md-card flex class="md-whiteframe-5dp">
+                            <div layout="column" layout-align="center center">
+                                <div flex="50" layout="column" style="background-color: #BBDEFB; min-height: 200px; width: 100%;">
+                                    <md-icon                                     
+                                        md-svg-icon="clienteCirculo" 
+                                        style="width: 130px; height: 130px; color: #E3F2FD;" 
+                                        aria-label="rut_cliente">                                        
+                                    </md-icon>
+                                </div>             
+                            </div>
+
+                            <md-card-title-text class='md-padding'>
+                                <span class="md-headline">Rut cliente</span>
+                            </md-card-title-text>
+
+                            <md-card-content>    
+                                <form name='formEfectivo'>
+                                    <md-input-container class="md-block">
+                                        <label>Rut</label>                            
+                                        <input name="rutEfectivo"                        
+                                               style="font-size: 20px;"
+                                               ng-pattern="/^[0-9]+-[0-9kK]{1}$/"                                               
+                                               maxlength="10" ng-model="vm.rutClienteEfectivo" 
+                                               valida-cliente
+                                               valida-rut>
+                                        <div ng-messages="formEfectivo.rutEfectivo.$error" md-auto-hide="false" ng-show="formEfectivo.rutEfectivo.$touched" ng-messages-multiple>                                        
+                                            <div ng-message="rutInvalido">El rut no es válido.</div>  
+                                            <div ng-message="clienteNoExiste">No hay clientes registrados con este rut.</div>                                                                
+                                            <div ng-message="pattern">Debes ingresar un rut con el formato correcto.</div>
+                                        </div>
+                                    </md-input-container>
+                                </form>
+                            </md-card-content>                          
+
+                        </md-card>
+
+                        <md-card flex class="md-whiteframe-5dp">
+                            <md-card-title>
+                                <md-card-title-text>
+                                    <span class="md-headline">Calculadora de vuelto</span>
+                                </md-card-title-text>
+                            </md-card-title>                            
+                            <md-card-content>
+                                <md-input-container>
+                                    <label>Total de la venta</label>
+                                    <md-icon md-svg-icon="moneda"></md-icon>
+                                    <input style="font-size: 22px;" ng-model="vm.total" readonly>
+                                </md-input-container>
+                                <md-input-container>
+                                    <label>Paga con</label>
+                                    <md-icon md-svg-icon="moneda"></md-icon>
+                                    <input style="font-size: 22px;" ng-model="vm.pagaCon" type="number">
+                                </md-input-container>
+                                <md-input-container ng-if="vm.pagaCon != null && vm.pagaCon >= vm.total">
+                                    <label>Vuelto</label>
+                                    <md-icon md-svg-icon="moneda"></md-icon>
+                                    <input style="font-size: 22px;" value="{{vm.pagaCon - vm.total}}" readonly>
+                                </md-input-container>
+                            </md-card-content>                            
+                        </md-card>                                       
+
+                    </div>                       
+                    <div class="container__b">
+                        <md-button ng-disabled="formEfectivo.$invalid" class="md-raised md-primary" ng-click="vm.guardarVenta()" type="button">Guardar venta</md-button>
+                        <md-button class="md-raised" type="button" ng-click="vm.cancelarVenta()" md-no-ink="md-no-ink">Cancelar</md-button>                        
+                    </div>
+                </div>              
+                <!--Fin pago en efectivo-->
+
+
+            </md-content>
+        </md-tab>
+        <!--FIN FINALIZAR VENTA-->
+
+
+    </md-tabs>
+</md-card>
+

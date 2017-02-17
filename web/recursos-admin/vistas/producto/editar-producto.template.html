@@ -1,0 +1,89 @@
+<div ng-cloak layout="column" layout-align="center center" >
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2><span>Editar producto</span></h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="vm.cerrarDialogo()">
+                <md-icon md-svg-src="cerrar" aria-label="Cerrar dialogo"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+        <form name="form" ng-submit="vm.ejecutarAccion()">
+            <div layout="column" class="md-padding" style="background-color: white !important;">
+                <div layout="row">
+                    <md-input-container class="ancho-mitad">
+                        <label>Id Producto</label>
+                        <input readonly name="idProducto" maxlength="20" required type="text" ng-model="vm.producto.idProducto"/>
+                    </md-input-container>
+
+                    <samp class="separador"></samp>
+
+                    <md-input-container class="ancho-mitad" required>
+                        <label>Categorias</label>
+                        <md-select required name="categoria" ng-model="vm.producto.idCategoria">
+                            <md-option ng-value="categoria.idCategoria" 
+                                       ng-repeat="categoria in vm.categorias track by $index"
+                                       ng-selected="{{categoria.categoria == vm.categoria ? 'true' : 'false'}}">
+                                {{categoria.categoria}}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="form.categoria.$error">
+                            <div ng-message="required">Selecciona una categoría</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout="row">
+                    <md-input-container class="ancho-mitad">
+                        <label>Nombre</label>
+                        <input name="nombre" maxlength="25" required type="text" ng-model="vm.producto.nombre"/>
+                        <div ng-messages="form.nombre.$error">
+                            <div ng-message="required">Debes completar este campo</div>
+                        </div>
+                    </md-input-container>
+
+                    <samp class="separador"></samp>
+
+                    <md-input-container class="ancho-mitad">
+                        <label>Stock</label>
+                        <input name="stock" min="1" max="147483647" required type="number" ng-model="vm.producto.stock"/>
+                        <div ng-messages="form.stock.$error">
+                            <div ng-message="required">Debes completar este campo</div>
+                            <div ng-message="max">El número sobrepasa el límite</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout="row">
+                    <md-input-container class="ancho-mitad">
+                        <label>Precio Compra</label>
+                        <input name="compra" min="1" max="147483647" required type="number" ng-model="vm.producto.precioCompra"/>
+                        <div ng-messages="form.compra.$error">
+                            <div ng-message="required">Debes completar este campo</div>
+                            <div ng-message="max">El número sobrepasa el límite</div>
+                        </div>
+                    </md-input-container>
+
+                    <samp class="separador"></samp>
+
+                    <md-input-container class="ancho-mitad">
+                        <label>Precio Venta</label>
+                        <input name="venta" min="1" max="147483647" required type="number" ng-model="vm.producto.precioVenta"/>
+                        <div ng-messages="form.venta.$error">
+                            <div ng-message="required">Debes completar este campo</div>
+                            <div ng-message="max">El número sobrepasa el límite</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" layout-align="center center" style="padding-top:20px;">                            
+                    <md-button type="button" ng-click="vm.cerrarDialogo()" md-no-ink="md-no-ink">Cancelar</md-button>
+                    <div flex="flex"></div>
+                    <md-button type="submit" class="md-raised md-primary" ng-disabled="form.$invalid">Guardar</md-button>
+                </div>
+            </div>
+        </form>
+    </md-dialog-content>
+</div>

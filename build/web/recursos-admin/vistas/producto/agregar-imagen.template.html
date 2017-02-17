@@ -1,0 +1,47 @@
+<div ng-cloak layout="column" layout-align="center center" >
+    <div layout="column">
+
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2><span>Agregar imagen</span></h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cerrarDialogo()">
+                    <md-icon md-svg-src="cerrar" aria-label="Cerrar dialogo"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <form name="form">
+            <md-content layout="column" class="md-padding" style="background-color: white !important;">
+                <lf-ng-md-file-input 
+                    lf-files="vm.files" 
+                    drag
+                    lf-required
+                    required
+                    lf-placeholder="Selecciona un archivo"
+                    lf-drag-and-drop-label="Arrastra y suelta la imagen"
+                    lf-browse-label="Buscar"
+                    lf-remove-label="Remover"
+                    accept="image/*">
+                </lf-ng-md-file-input>
+                <div ng-messages="form.files.$error" style="color:grey;">
+                    <div ng-message="required">Debes seleccionar una imagen</div>
+                    <div ng-message="mimetype">Sólo se admiten imágenes!</div>
+                </div> 
+
+                <div layout="row" layout-align="center center" style="padding-top:20px;">                            
+                    <md-button type="button" ng-click="vm.cerrarDialogo()" md-no-ink="md-no-ink">Cancelar</md-button>
+                    <div flex="flex"></div>
+                    <md-button ng-class="{mostrar: vm.mostrarCarga == false, esconder: vm.mostrarCarga == true}" ng-disabled="form.$invalid" class="md-raised md-primary" ng-click="vm.ejecutarAccion()">Guardar</md-button>
+                    <md-progress-circular md-mode="indeterminate" ng-class="{mostrar: vm.mostrarCarga == true, esconder: vm.mostrarCarga == false}" md-diameter="40" ></md-progress-circular>
+                </div>
+            </md-content>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+

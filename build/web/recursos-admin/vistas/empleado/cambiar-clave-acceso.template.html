@@ -1,0 +1,56 @@
+<md-dialog aria-label="Cambiar clave de acceso">
+    <form name="formClave" ng-submit="vm.cambiarClave(formClave)">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h3>Cambio de clave de acceso al sistema</h3>
+                <span flex></span>
+                <md-button aria-label="b1" class="md-icon-button" ng-click="vm.cancelar()">
+                    <md-icon md-svg-src="cerrar" aria-label="Cerrar dialogo"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div ng-if="vm.exito == false" class="md-dialog-content" layout="column">                                
+                <md-input-container>
+                    <label>Clave actual</label>
+                    <input id="claveActual" name="claveActual" ng-model="vm.claves.claveActual" required ng-minlength="4" maxlength="10" type="password">
+                    <div ng-messages="formClave.claveActual.$error" md-auto-hide="false" ng-show="formClave.claveActual.$touched" ng-messages-multiple>
+                        <div ng-message="required">Ingresa tu actual clave</div>
+                        <div ng-message="minlength">La clave debe contener como mínimo 4 dígitos</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Nueva clave</label>
+                    <input name="nuevaClaveA" ng-model="vm.claves.nuevaClaveA" required ng-minlength="4" maxlength="10" type="password">
+                    <div ng-messages="formClave.nuevaClaveA.$error" md-auto-hide="false" ng-show="formClave.nuevaClaveA.$touched" ng-messages-multiple>
+                        <div ng-message="required">Ingresa una nueva clave</div>                                    
+                        <div ng-message="minlength">La clave debe contener como mínimo 4 dígitos</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Confirma la nueva clave</label>
+                    <input id="nuevaClaveB" name="nuevaClaveB" ng-disabled="vm.claves.nuevaClaveA == null" ng-pattern="{{vm.claves.nuevaClaveA}}" ng-model="vm.claves.nuevaClaveB" required min="4" maxlength="10" type="password">
+                    <div ng-messages="formClave.nuevaClaveB.$error" ng-show="formClave.nuevaClaveB.$touched">
+                        <div ng-message="required">Confirma la nueva clave</div> 
+                        <div ng-message="pattern">Las claves no coinciden</div>                                     
+                    </div>
+                </md-input-container>
+            </div>
+            <div ng-if="vm.exito == true" class="md-dialog-content" layout="column" layout-align="center center">
+                <md-icon md-svg-icon="dedoArriba" style="width: 50px; height: 50px;"></md-icon>
+                <p>La clave de acceso ha sido cambiada</p>                
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">            
+            <md-progress-circular 
+                md-mode="indeterminate" 
+                md-diameter="20" 
+                ng-if="vm.cambiandoClave">                    
+            </md-progress-circular>
+            <md-button ng-if="vm.textoError == null && vm.exito == false && vm.cambiandoClave == false" aria-label="b2" ng-click="vm.cancelar()">cancelar</md-button>            
+            <md-button ng-if="vm.textoError == null && vm.exito == false" class="md-primary" ng-disabled="vm.cambiandoClave" type="submit">Guardar cambios</md-button>
+            <h4 style="color: red;" ng-if="vm.textoError != null">{{vm.textoError}}</h4>
+            <md-button ng-if="vm.exito == true" class="md-primary md-raised" ng-click="vm.listo()">Listo</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,0 +1,96 @@
+<md-button ng-click="vm.crear($event)" class="md-fab md-primary md-fab-bottom-right" aria-label="Crear" style="position: fixed;">
+    <md-icon md-svg-src="crear"></md-icon>
+</md-button>
+
+<md-card ng-cloak>                    
+    <div layout="row">                            
+        <md-button class="md-primary" style="margin: 0px;">
+            <md-icon md-svg-icon="buscar" aria-label="Icono_buscar" type="submit" style="width: 30px; height: 30px;"></md-icon>
+        </md-button>
+        <input                                 
+            flex 
+            maxlength="50" 
+            required type="search" 
+            placeholder="Buscar en la lista" 
+            style="margin-top: 15px; margin-bottom: 15px; width: 100%; border: none; font-size: 20px; outline: none;"
+            ng-model="vm.busqueda"
+            name="busqueda"
+            id="busqueda"
+            ng-focus="vm.reiniciarQueryPage()">                        
+        <md-button ng-show="vm.busqueda != null" ng-click="vm.busqueda = '';
+                    vm.seleccionado = []" class="md-icon-button" style="margin-top: 8px; margin-left: 0px;">                                 
+            <md-icon md-svg-icon="cerrar" aria-label="Icono_cerrar"></md-icon>
+        </md-button>                            
+    </div>
+</md-card>
+
+
+<md-card>
+
+    <md-toolbar class="md-table-toolbar md-default" ng-class="{esconder: vm.seleccionado.length > 0, mostrar: vm.seleccionado.length == 0}">
+        <div class="md-toolbar-tools">
+            <span>Lista de productos</span>
+        </div>
+    </md-toolbar>
+
+    <md-toolbar class="md-table-toolbar md-default" ng-class="{mostrar: vm.seleccionado.length > 0, esconder: vm.seleccionado.length == 0}">
+        <div class="md-toolbar-tools">
+            <span>{{vm.seleccionado.length}} {{vm.seleccionado.length > 1 ? 'items seleccionados' : 'item seleccionado'}}</span>
+            <div flex></div>
+            <md-button class="md-icon-button" ng-click="vm.eliminar($event)">
+                <md-icon md-svg-icon="eliminar" aria-label="Eliminar"></md-icon>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="vm.editar($event)">
+                <md-icon md-svg-icon="editar" aria-label="Editar"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>   
+
+    <!-- exact table from live demo -->
+    <md-table-container>
+        <table md-table md-row-select multiple="false" ng-model="vm.seleccionado" md-progress="vm.promise">
+            <thead md-head md-order="vm.query.order" md-on-reorder="vm.ordenSeleccionado">
+                <tr md-row>
+                    <th md-column><span>Imagen</span></th>
+                    <th md-column><span>Código</span></th>
+                    <th md-column md-order-by="categoria"><span>Categoria</span></th>
+                    <th md-column md-order-by="nombre"><span>Nombre</span></th>
+                    <th md-column md-numeric md-order-by="stock" md-desc><span>Stock</span></th>
+                    <th md-column md-numeric md-order-by="precioCompra" md-desc><span>Precio Compra</span></th>
+                    <th md-column md-numeric md-order-by="precioVenta" md-desc><span>Precio Venta</span></th>
+                    <th md-column md-numeric md-order-by="vigente">Vigente</th> 
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="producto" md-on-select="vm.itemSeleccionado" md-auto-select="false" ng-repeat="producto in vm.productos| filter: vm.busqueda | orderBy: vm.query.order | limitTo: vm.query.limit : (vm.query.page -1) * vm.query.limit">
+                    <td md-cell>                        
+            <md-menu md-offset="0 -7">
+                <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                    <md-icon class="md-avatar" md-svg-icon="imagen"></md-icon>
+                </md-button>
+                <md-menu-content width="2">
+                    <md-menu-item ng-repeat="item in [{texto: 'Ver imagen', ver: true}, {texto: 'Agregar imagen', ver: false}]">
+                        <md-button ng-click="vm.gestionImagen(item.ver, producto.idProducto, producto.urlImagen)" aria-label="Gestion imagen"> 
+                            <span md-menu-align-target>{{item.texto}}</span> 
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            </td>
+            <td md-cell>{{producto.idProducto}}</td>
+            <td md-cell>{{producto.categoria}}</td>
+            <td md-cell>{{producto.nombre}}</td>
+            <td md-cell>{{producto.stock}}</td>
+            <td md-cell>{{producto.precioCompra}}</td>
+            <td md-cell>{{producto.precioVenta}}</td>
+            <td md-cell>
+            <md-switch ng-click="vm.cambiarEstado(producto)" ng-model="producto.vigente" aria-label="Vigente"></md-switch>
+            </td>
+            </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+
+    <md-table-pagination md-limit="vm.query.limit" md-limit-options="[5, 10, 15]" md-page-select="false" md-page="vm.query.page" md-total="{{vm.productos.length}}" md-on-paginate="vm.productos" md-page-select></md-table-pagination>
+</md-card>
+

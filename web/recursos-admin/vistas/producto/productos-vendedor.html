@@ -1,0 +1,58 @@
+<md-card ng-cloak>                    
+    <div layout="row">                            
+        <md-button class="md-primary" style="margin: 0px;">
+            <md-icon md-svg-icon="buscar" aria-label="Icono_buscar" type="submit" style="width: 30px; height: 30px;"></md-icon>
+        </md-button>
+        <input                                 
+            flex 
+            maxlength="50" 
+            required type="search" 
+            placeholder="Buscar en la lista" 
+            style="margin-top: 15px; margin-bottom: 15px; width: 100%; border: none; font-size: 20px; outline: none;"
+            ng-model="vm.busqueda"
+            name="busqueda"
+            id="busqueda">                        
+        <md-button ng-show="vm.busqueda != null" ng-click="vm.busqueda = '';
+            vm.seleccionado = []" class="md-icon-button" style="margin-top: 8px; margin-left: 0px;">                                 
+            <md-icon md-svg-icon="cerrar" aria-label="Icono_cerrar"></md-icon>
+        </md-button>                            
+    </div>
+</md-card>
+
+
+<md-card>
+
+    <md-toolbar class="md-table-toolbar md-default">
+        <div class="md-toolbar-tools">
+            <span>Lista de productos</span>
+            <span flex></span>
+            <md-button aria-label="Aumentar stock de producto"                       
+                       ng-click="vm.cambiarStock()"
+                       ng-class="{esconder: vm.seleccionado.length == 0, mostrar: vm.seleccionado.length > 0}">
+                Aumentar stock
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-table-container>
+        <table md-table md-row-select multiple="false" ng-model="vm.seleccionado" md-progress="vm.promise">
+            <thead md-head md-order="vm.query.order" md-on-reorder="vm.ordenSeleccionado">
+                <tr md-row>                    
+                    <th md-column md-order-by="idProducto"><span>Código</span></th>                    
+                    <th md-column md-order-by="nombre"><span>Nombre</span></th>
+                    <th md-column md-numeric md-order-by="stock" md-desc><span>Stock</span></th>                    
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="producto" md-on-select="vm.itemSeleccionado" md-auto-select="true" ng-repeat="producto in vm.productos| filter: vm.busqueda | orderBy: vm.query.order | limitTo: vm.query.limit : (vm.query.page -1) * vm.query.limit">            
+                    <td md-cell>{{producto.idProducto}}</td>                    
+                    <td md-cell>{{producto.nombre}}</td>
+                    <td md-cell>{{producto.stock}}</td>                    
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+
+    <md-table-pagination md-limit="vm.query.limit" md-limit-options="[5, 10, 15]" md-page-select="false" md-page="vm.query.page" md-total="{{vm.productos.length}}" md-on-paginate="vm.productos" md-page-select></md-table-pagination>
+</md-card>
+

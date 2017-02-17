@@ -1,0 +1,27 @@
+<div ng-cloak  layout="column" style="max-width: 600px; min-width: 600px;">  
+    <md-content>
+        <md-list flex>
+            <md-toolbar style="margin-top: -10px !important;">
+                <div class="md-toolbar-tools">
+                    <h2><span>Detalles para la venta n° {{vm.idVenta}}</span></h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="vm.cerrarDialogo()">
+                        <md-icon md-svg-src="cerrar" aria-label="Cerrar dialogo"></md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-list-item class="md-3-line" ng-repeat="detalle in vm.detalles" ng-click="null">
+                <img ng-src="{{detalle.imagen}}" class="md-avatar" alt="{{detalle.producto}}" />
+                <div class="md-list-item-text" layout="column">
+                    <h3>{{detalle.producto}}</h3>
+                    <h4>Cantidad: {{detalle.cantidad}}</h4>
+                    <p>Precio: {{detalle.precio| currency:$:0}}</p>                   
+                </div>
+                <spam flex></spam>
+                <p>Sub total: {{detalle.subTotal| currency:$:0}}</p>
+            </md-list-item>
+            
+        </md-list>    
+    </md-content>
+</div>

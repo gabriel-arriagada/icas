@@ -1,0 +1,77 @@
+
+<md-card ng-cloak>                    
+    <div layout="row">                            
+        <md-button class="md-primary" style="margin: 0px;">
+            <md-icon md-svg-icon="buscar" aria-label="Icono_buscar" type="submit" style="width: 30px; height: 30px;"></md-icon>
+        </md-button>
+        <input                                 
+            flex 
+            maxlength="50" 
+            required type="search" 
+            placeholder="Buscar en la lista" 
+            style="margin-top: 15px; margin-bottom: 15px; width: 100%; border: none; font-size: 20px; outline: none;"
+            ng-model="vm.busqueda"
+            name="busqueda"
+            id="busqueda"
+            ng-focus="vm.reiniciarQueryPage()">                        
+        <md-button ng-show="vm.busqueda != null" ng-click="vm.busqueda = '';
+                    vm.seleccionado = []" class="md-icon-button" style="margin-top: 8px; margin-left: 0px;">                                 
+            <md-icon md-svg-icon="cerrar" aria-label="Icono_cerrar"></md-icon>
+        </md-button>                            
+    </div>
+</md-card>
+
+<md-card>
+
+    <md-toolbar class="md-table-toolbar md-default" ng-class="{esconder: vm.seleccionado.length > 0, mostrar: vm.seleccionado.length == 0}">
+        <div class="md-toolbar-tools">
+            <span>Ventas</span>
+        </div>
+    </md-toolbar>
+
+    <md-toolbar class="md-table-toolbar md-default" ng-class="{mostrar: vm.seleccionado.length > 0, esconder: vm.seleccionado.length == 0}">
+        <div class="md-toolbar-tools">
+            <span>{{vm.seleccionado.length}} {{vm.seleccionado.length > 1 ? 'items seleccionados' : 'item seleccionado'}}</span>
+            <div flex></div>
+            <md-button class="md-icon-button" ng-click="vm.eliminar($event)">
+                <md-icon md-svg-icon="eliminar" aria-label="Eliminar"></md-icon>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="vm.verDetalle($event)">
+                <md-icon md-svg-icon="detalle" aria-label="Ver detalle"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>   
+
+
+    <md-table-container>
+        <table md-table md-row-select multiple="false" ng-model="vm.seleccionado" md-progress="vm.promise">
+            <thead md-head md-order="vm.query.order" md-on-reorder="vm.ordenSeleccionado">
+                <tr md-row>
+                    <th md-column md-numeric md-order-by="idVenta"><span>Id</span></th>
+                    <th md-column md-order-by="vendedor" md-desc><span>Vendedor</span></th>
+                    <th md-column md-order-by="cliente" md-desc><span>Cliente</span></th>
+                    <th md-column md-order-by="total" md-desc><span>Total</span></th>
+                    <th md-column md-order-by="fecha" md-desc><span>Fecha</span></th>
+                    <th md-column md-order-by="formaPago" md-desc><span>Forma de pago</span></th>
+                    <th md-column md-order-by="pagada" md-desc><span>¿Pagada?</span></th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="venta" md-on-select="vm.itemSeleccionado" md-auto-select ng-repeat="venta in vm.ventas | filter: vm.busqueda | orderBy: vm.query.order | limitTo: vm.query.limit : (vm.query.page -1) * vm.query.limit">
+                    <td md-cell>{{venta.idVenta}}</td>
+                    <td md-cell>{{venta.vendedor}}</td>
+                    <td md-cell>{{venta.cliente}}</td>
+                    <td md-cell>{{venta.total| currency:$:0}}</td>
+                    <td md-cell>{{venta.fecha}}</td>
+                    <td md-cell>{{venta.formaPago}}</td>
+                    <td md-cell>
+                        <md-checkbox ng-disabled="true" ng-model="venta.pagada" aria-label="¿pagada?"></md-checkbox>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+
+    <md-table-pagination md-limit="vm.query.limit" md-limit-options="[5, 10, 15]" md-page-select="false" md-page="vm.query.page" md-total="{{vm.ventas.length}}" md-on-paginate="vm.ventas" md-page-select></md-table-pagination>
+</md-card>
+

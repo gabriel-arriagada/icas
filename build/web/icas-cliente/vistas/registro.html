@@ -1,0 +1,107 @@
+<md-card class="arreglosCard md-padding">
+    <md-icon md-svg-icon="usuario" style="color: lightgray;width: 150px;height: 150px;"></md-icon>
+    <center><p style="font-weight: bold; color: #cccccc;">Crea una Cuenta Cafetería</p></center>
+    
+    <md-card-content ng-if="vm.usuarioCreado">
+        <center><p style="font-weight: bold; color: #cccccc;">{{vm.textoFinal}}</p></center>
+    </md-card-content>
+    
+    <form name="reg" ng-submit="vm.enviarRegistro(reg)" ng-if="vm.usuarioCreado == false">
+        <md-card-content>  
+
+            <md-input-container class="md-block izquierda">
+                <label>Rut</label>                            
+                <input name="rut"                        
+                       style="font-size: 20px;"
+                       ng-pattern="/^[0-9]+-[0-9kK]{1}$/"
+                       maxlength="10" ng-model="vm.usuario.rut" 
+                       valida-rut
+                       valida-usuario
+                       required>
+                <div ng-messages="reg.rut.$error" md-auto-hide="false" ng-show="reg.rut.$touched" ng-messages-multiple>
+                    <div ng-message="required">Debes ingresar un rut.</div>
+                    <div ng-message="rutInvalido">El rut no es válido.</div>
+                    <div ng-message="usuarioExiste">Ya existe un cliente con este rut.</div>                    
+                    <div ng-message="pattern">Debes ingresar un rut con el formato correcto.</div>
+                </div>
+            </md-input-container>
+
+            <div layout="row" layout-align="center center">
+                <md-input-container class="md-block izquierda">
+                    <label>Nombre</label>                            
+                    <input maxlength="50" style="font-size: 20px;" ng-model="vm.usuario.nombre" name="nombre" type="text" required>
+                    <div ng-messages="reg.nombre.$error" md-auto-hide="false" ng-show="reg.nombre.$touched">
+                        <div ng-message="required">Ingresa tu nombre</div>                                
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block izquierda">
+                    <label>Apellido</label>                            
+                    <input maxlength="50" style="font-size: 20px;" ng-model="vm.usuario.apellido" name="apellido" type="text" required>
+                    <div ng-messages="reg.apellido.$error" md-auto-hide="false" ng-show="reg.apellido.$touched">
+                        <div ng-message="required">Ingresa tu apellido</div>                                
+                    </div>
+                </md-input-container>
+            </div>
+
+            <md-input-container class="md-block izquierda">
+                <label>Correo</label>                            
+                <input maxlength="50" style="font-size: 20px;" ng-model="vm.usuario.correo" name="correo" type="email" required>
+                <div ng-messages="reg.correo.$error" md-auto-hide="false" ng-show="reg.correo.$touched">
+                    <div ng-message="required">Ingresa tu correo.</div>
+                    <div ng-message="email">Debes ingresar un correo válido.</div>
+                </div>
+            </md-input-container>
+
+            <div layout="row" layout-align="center center">
+                <md-input-container class="md-block izquierda">
+                    <label>Clave</label>                            
+                    <input maxlength="10" style="font-size: 20px;" 
+                           ng-model="vm.usuario.claveA"                            
+                           ng-minlength="4"                           
+                           name="claveA" type="password" 
+                           required>
+                    <div ng-messages="reg.claveA.$error" md-auto-hide="false" ng-show="reg.claveA.$touched">
+                        <div ng-message="required">Ingresa tu contrseña</div>                                
+                        <div ng-message="minlength">La clave debe tener mínimo 4 dígitos.</div>                        
+                    </div>
+                </md-input-container> 
+                <md-input-container class="md-block izquierda">
+                    <label>Confirma la clave</label>                            
+                    <input maxlength="10" style="font-size: 20px;" 
+                           ng-disabled="!(vm.usuario.claveA != null)"
+                           ng-pattern="{{vm.usuario.claveA}}"
+                           ng-model="vm.usuario.claveB" 
+                           ng-minlength="4" 
+                           name="claveB" type="password" required>
+                    <div ng-messages="reg.claveB.$error" ng-show="reg.claveB.$touched">
+                        <div ng-message="required">Ingresa nuevamente la contraseña.</div>     
+                        <div ng-message="minlength">La clave debe tener mínimo 4 dígitos.</div>  
+                        <div ng-message="pattern">Las claves no coinciden.</div>
+                    </div>
+                </md-input-container> 
+            </div>            
+
+        </md-card-content>         
+        <md-card-actions layout="row"                          
+                         layout-align="end center" 
+                         style="margin-bottom: 30px;">                                   
+            
+            <md-progress-circular 
+                md-mode="indeterminate" 
+                md-diameter="50" 
+                ng-if="vm.creandoUsuario">                    
+            </md-progress-circular>
+            
+            <md-button class="md-raised 
+                       md-primary" 
+                       ng-disabled="reg.$invalid || reg.$pending" 
+                       type="submit" 
+                       ng-if="!vm.creandoUsuario">
+                Guardar
+            </md-button>                        
+            
+        </md-card-actions> 
+    </form>                        
+    <md-divider></md-divider>
+    <md-button class="md-primary" href="#/autenticacion" style="margin-top: 10px;">Iniciar sesión</md-button>                        
+</md-card>

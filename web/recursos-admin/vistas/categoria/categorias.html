@@ -1,0 +1,67 @@
+<md-button ng-click="vm.crear()" class="md-fab md-primary md-fab-bottom-right" aria-label="Crear" style="position: fixed;">
+    <md-icon md-svg-src="crear"></md-icon>
+</md-button>
+
+<md-card ng-cloak>                    
+    <div layout="row">                            
+        <md-button class="md-primary" style="margin: 0px;">
+            <md-icon md-svg-icon="buscar" aria-label="Icono_buscar" type="submit" style="width: 30px; height: 30px;"></md-icon>
+        </md-button>
+        <input                                 
+            flex 
+            maxlength="50" 
+            required type="search" 
+            placeholder="Buscar en la lista" 
+            style="margin-top: 15px; margin-bottom: 15px; width: 100%; border: none; font-size: 20px; outline: none;"
+            ng-model="vm.busqueda"
+            name="busqueda"
+            id="busqueda">                        
+        <md-button ng-show="vm.busqueda != null" ng-click="vm.busqueda = ''; vm.seleccionado = []" class="md-icon-button" style="margin-top: 8px; margin-left: 0px;">                                 
+            <md-icon md-svg-icon="cerrar" aria-label="Icono_cerrar"></md-icon>
+        </md-button>                            
+    </div>
+</md-card>
+
+<md-card>
+
+    <md-toolbar class="md-table-toolbar md-default" ng-class="{esconder: vm.seleccionado.length > 0, mostrar: vm.seleccionado.length == 0}">
+        <div class="md-toolbar-tools" style="color: black !important;">
+            <span>Lista de categorías</span>
+            <span flex></span>            
+        </div>
+    </md-toolbar>
+
+    <md-toolbar class="md-table-toolbar md-default" ng-class="{mostrar: vm.seleccionado.length > 0, esconder: vm.seleccionado.length == 0}">
+        <div class="md-toolbar-tools">
+            <span>{{vm.seleccionado.length}} {{vm.seleccionado.length > 1 ? 'items seleccionados' : 'item seleccionado'}}</span>
+            <div flex></div>
+            <md-button class="md-icon-button" ng-click="vm.eliminar()">
+                <md-icon md-svg-icon="eliminar" aria-label="Eliminar"></md-icon>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="vm.editar()">
+                <md-icon md-svg-icon="editar" aria-label="Editar"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>   
+
+
+    <md-table-container>
+        <table md-table md-row-select multiple="false" ng-model="vm.seleccionado" md-progress="vm.promise">
+            <thead md-head md-order="vm.query.order" md-on-reorder="vm.ordenSeleccionado">
+                <tr md-row>
+                    <th md-column md-numeric md-order-by="idCategoria"><span>Id</span></th>
+                    <th md-column md-order-by="categoria" md-desc><span>Nombre</span></th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="categoria" md-on-select="vm.itemSeleccionado" md-auto-select ng-repeat="categoria in vm.categorias |filter:vm.busqueda | orderBy: vm.query.order | limitTo: vm.query.limit : (vm.query.page -1) * vm.query.limit">
+                    <td md-cell>{{categoria.idCategoria}}</td>
+                    <td md-cell>{{categoria.categoria}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+
+    <md-table-pagination md-limit="vm.query.limit" md-limit-options="[5, 10, 15]" md-page-select="false" md-page="vm.query.page" md-total="{{vm.categorias.length}}" md-on-paginate="vm.categorias" md-page-select></md-table-pagination>
+</md-card>
+

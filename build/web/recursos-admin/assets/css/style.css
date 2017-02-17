@@ -1,0 +1,114 @@
+html, body {
+    font-family: 'Roboto', sans-serif;
+    font-size:14px;
+    height:100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* Toolbar area */
+
+.menu {
+    background-color: transparent;
+    border: none;
+    height: 38px;
+    margin: 16px;
+    width: 36px;
+}
+
+
+md-toolbar h3 {
+    margin: auto;
+    font-weight: 500;
+}
+
+
+
+/*--------Estilos para Side Nav----*/
+
+.plomoTransparente{    
+    background-color: rgba(121, 121, 121, 0.8);
+}
+
+[ng-click]:hover {
+    cursor: pointer;
+}
+
+md-content {
+    background-color: #eee !important;
+}
+
+.tool-bar-sidenav {
+    padding: 15px;
+    height: 150px;
+    max-height: 150px;
+    min-height: 150px;
+    //background-color: #1156b3 !important;    
+    background-image: url('../img/fondo.png');
+    background-repeat: no-repeat;
+}
+
+
+/*md-sidenav, 
+md-sidenav.md-locked-open, 
+md-sidenav.md-closed.md-locked-open-add-active {
+    min-width: 270px !important;
+    width: 85vw !important;
+    max-width: 270px !important;
+} */
+
+md-sidenav md-divider {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+md-sidenav md-icon {
+    fill: #737373;
+    position: relative;
+}
+md-sidenav .md-avatar {
+    height: 64px;
+    width: 64px;
+}
+
+/* More closely matches https://www.google.com/design/spec/components/lists.html#lists-specs */
+md-list-item.md-3-line md-divider[md-inset] {
+    left: 70px;
+}
+
+.md-avatar > svg {
+    border-radius: 50%;
+}
+
+.ancho-mitad{
+    width: 50%;
+}
+
+.separador{
+    margin-left: 6px; 
+    margin-right: 6px;
+}
+
+.stock-excedido{
+    background-color: #F2DEDE !important;
+}
+
+.stock-correcto{
+
+}
+
+.fondo-blanco{
+    background-color: white !important;
+}
+
+
+/*Esilo formas de pago*/
+
+.titulo-forma-pago {
+  font-weight: bolder; 
+}
+
+.fila-forma-pago {
+  border-bottom: 1px dashed #ddd; 
+}
+

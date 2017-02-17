@@ -1,0 +1,34 @@
+<div ng-cloak layout="column" layout-align="center center" >
+    <div layout="column">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2><span>Editar categoria</span></h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cerrarDialogo()">
+                    <md-icon md-svg-src="cerrar" aria-label="Cerrar dialogo"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <form name="form" ng-submit="vm.ejecutarAccion()">
+            <md-content layout="column" class="md-padding" style="background-color: white !important;">
+                <md-input-container>
+                    <label>Id</label>
+                    <input readonly type="text" ng-model="vm.idCategoria"/>
+                </md-input-container>
+                <md-input-container>
+                    <label>Categoría</label>
+                    <input maxlength="20" required type="text" ng-model="vm.categoria"/>
+                    <div ng-messages="form.$error">
+                        <div ng-message="required">Debes completar este campo</div>
+                    </div>
+                </md-input-container>
+                <div layout="row" layout-align="center center" style="padding-top:20px;">                            
+                    <md-button type="button" ng-click="vm.cerrarDialogo()" md-no-ink="md-no-ink">Cancelar</md-button>
+                    <div flex="flex"></div>
+                    <md-button type="submit" class="md-raised md-primary" ng-disabled="form.$invalid">Guardar</md-button>
+                </div>
+            </md-content>
+        </form>
+    </div>
+</div>

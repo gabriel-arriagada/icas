@@ -1,0 +1,540 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    background-color: #EEEEEE;    
+    font-family: 'Roboto', sans-serif;
+}
+
+.wrapper-nav {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    background: #00BCD4;
+    width: 100%;
+    color: #e0f7fa;    
+    z-index: 1000;
+    top: 0;    
+}
+
+.header-menu {
+    height: 56px;
+    color: #e0f7fa;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.header__menu-toggle {
+    background: none;
+    border: none;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin-top: 15px;
+    color: #e0f7fa;
+}
+
+.side-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+
+
+.side-nav--visible {
+    pointer-events: auto;
+}
+
+.side-nav::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    will-change: opacity;
+    transition: opacity 0.3s cubic-bezier(0, 0, 0.3, 1);
+}
+
+.side-nav__container {
+    position: relative;
+    width: 90%;
+    max-width: 320px;
+    background: #FFF;
+    height: 100%;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.4);
+    transform: translateX(-102%);
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+}
+
+.side-nav--animatable .side-nav__container {
+    transition: transform 0.13s cubic-bezier(0, 0, 0.3, 1);
+}
+
+.side-nav--visible.side-nav--animatable .side-nav__container {
+    transition: transform 0.33s cubic-bezier(0, 0, 0.3, 1);
+}
+
+.side-nav--visible::before {
+    opacity: 1;
+}
+
+.side-nav--visible .side-nav__container {
+    transform: none;
+}
+
+.side-nav__hide {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    background: none;
+    border: none;
+    color: #e0f7fa;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+}
+
+.gradient__mdl{
+    background: #00BCD4; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #00838F, #B2EBF2); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(left top, #00838F, #B2EBF2); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(left top, #00838F, #B2EBF2); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(left top, #00838F, #B2EBF2); /* Standard syntax */
+}
+
+.side-nav__header__icon {
+    height: 200px;   
+    color: #e0f7fa;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    align-items: center;
+    font-size: 24px;
+}
+
+.icono-side-nav__header{
+    font-size: 130px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.side-nav__content__sin-sesion{
+    height: 200px;        
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    align-items: center;
+    font-size: 24px;
+}
+
+/**
+CARD-
+**/
+
+
+/*Card css*/
+
+.mdl-grid {
+    margin-top: 0px;
+}
+
+.mdl-card__media {
+    margin: 0;
+}
+
+.mdl-card__media>img {    
+    max-width: 100%;
+}
+
+.mdl-card__actions {
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.mdl-card__actions>.mdl-button--icon {
+    margin-right: 3px;
+    margin-left: 3px;
+}
+
+.mdl-card__title-text {
+    font-size: 20px;
+    font-weight: 350;
+}
+
+.get-off-margin {
+    margin-top: -30px !important;
+    margin-bottom: -10px;
+}
+
+
+/*TABS*/
+
+
+/**
+Estilo de la barra de TABS
+*/
+
+.header-tabs {
+    height: 48px;
+    color: #e0f7fa;
+    align-items: center;
+    padding: 0 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.header-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.tabs {
+    font-size: 0;
+    position: relative;
+    padding: 0;
+    display: inline;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+    /*quita el espacio entre los li*/
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: #00BCD4;
+}
+
+@media (min-width: 620px) {
+    .header-tabs {
+        padding-left: 80px;
+    }
+    .tabs {
+        margin-right: 80px;
+    }
+}
+
+.tab {
+    display: inline-block;
+    height: 48px;
+    background: #00BCD4;
+    font-size: 16px;
+    text-align: center;
+    line-height: 48px;
+    color: #e0f7fa;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+
+@media (min-width: 620px) {
+    .tab {
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+    }
+}
+
+.slider {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #FFFF98;
+    -webkit-transition: all 0.6s;
+    transition: all 0.6s;
+}
+
+.ripple {
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
+    position: absolute;
+    opacity: 1;
+}
+
+.rippleBtn {
+    -webkit-animation: rippleDrop .5s linear;
+    animation: rippleDrop .5s linear;
+}
+
+@-webkit-keyframes rippleDrop {
+    100% {
+        -webkit-transform: scale(2);
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes rippleDrop {
+    100% {
+        -webkit-transform: scale(2);
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/**Botón */
+.mdl-button--floating-action {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    padding-top: 24px;
+    margin-bottom: 0;
+    z-index: 2;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+
+li:focus, button:focus{
+    outline: none;
+}
+
+@media (max-width: 800px) {
+    .contenedor {
+        padding-left: 0px;
+        padding-right: 0px;                    
+    }
+}       
+
+@media (min-width: 800px) {
+    .contenedor {
+        padding-left: 10%;
+        padding-right: 10%;                    
+    }
+}       
+
+@media (min-width: 2100px) {
+    .contenedor {
+        padding-left: 20%;
+        padding-right: 20%;                    
+    }
+}    
+
+.mdl-card__actions {
+    padding-right: 4px;
+}
+
+.mdl-card__actions a{
+    padding-right: 7px;
+    padding-left: 7px;
+}
+
+.mdl-card__actions a:hover{
+    color: #00BCD4;                
+}
+
+
+ /*
+       * Constants:
+       *      RADIUS      = 12.5
+       *      STROKEWIDTH = 3
+       *      ARCSIZE     = 270 degrees (amount of circle the arc takes up)
+       *      ARCTIME     = 1333ms (time it takes to expand and contract arc)
+       *      ARCSTARTROT = 216 degrees (how much the start location of the arc
+       *                                should rotate each time, 216 gives us a
+       *                                5 pointed star shape (it's 360/5 * 2).
+       *                                For a 7 pointed star, we might do
+       *                                360/7 * 3 = 154.286)
+       *
+       *      SHRINK_TIME = 400ms
+       */
+ 
+ .spinner {
+  margin: 10px 20px;
+  text-align: center;
+  display: inline-block;
+ }
+ 
+ .spinner svg {
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
+  padding: 8px;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+ }
+ 
+ .qp-circular-loader {
+  width: 64px;
+  /* 2*RADIUS + STROKEWIDTH */
+  
+  height: 64px;
+  /* 2*RADIUS + STROKEWIDTH */
+  
+  stroke-width: 3px;
+ }
+ 
+ .qp-circular-loader-path {
+  stroke-dasharray: 58.9;
+  /* 2*RADIUS*PI * ARCSIZE/360 */
+  
+  stroke-dashoffset: 58.9;
+  /* 2*RADIUS*PI * ARCSIZE/360 */
+  /* hides things initially */
+ }
+ /* SVG elements seem to have a different default origin */
+ 
+ .qp-circular-loader,
+ .qp-circular-loader * {
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+ }
+ /* Rotating the whole thing */
+ 
+ @-webkit-keyframes rotate {
+  from {
+   -webkit-transform: rotate(0deg);
+  }
+  to {
+   -webkit-transform: rotate(360deg);
+  }
+ }
+ 
+ @keyframes rotate {
+  from {
+   transform: rotate(0deg);
+  }
+  to {
+   transform: rotate(360deg);
+  }
+ }
+ 
+ .qp-circular-loader {
+  -webkit-animation-name: rotate;
+  animation-name: rotate;
+  -webkit-animation-duration: 1568.63ms;
+  animation-duration: 1568.63ms;
+  /* 360 * ARCTIME / (ARCSTARTROT + (360-ARCSIZE)) */
+  
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+ }
+ /* Filling and unfilling the arc */
+ 
+ @-webkit-keyframes fillunfill {
+  from {
+   stroke-dashoffset: 58.8
+   /* 2*RADIUS*PI * ARCSIZE/360 - 0.1 */
+   /* 0.1 a bit of a magic constant here */
+  }
+  50% {
+   stroke-dashoffset: 0;
+  }
+  to {
+   stroke-dashoffset: -58.4
+   /* -(2*RADIUS*PI * ARCSIZE/360 - 0.5) */
+   /* 0.5 a bit of a magic constant here */
+  }
+ }
+ 
+ @keyframes fillunfill {
+  from {
+   stroke-dashoffset: 58.8
+   /* 2*RADIUS*PI * ARCSIZE/360 - 0.1 */
+   /* 0.1 a bit of a magic constant here */
+  }
+  50% {
+   stroke-dashoffset: 0;
+  }
+  to {
+   stroke-dashoffset: -58.4
+   /* -(2*RADIUS*PI * ARCSIZE/360 - 0.5) */
+   /* 0.5 a bit of a magic constant here */
+  }
+ }
+ 
+ @-webkit-keyframes rot {
+  from {
+   -webkit-transform: rotate(0deg);
+  }
+  to {
+   -webkit-transform: rotate(-360deg);
+  }
+ }
+ 
+ @keyframes rot {
+  from {
+   transform: rotate(0deg);
+  }
+  to {
+   transform: rotate(-360deg);
+  }
+ }
+ 
+ @-webkit-keyframes colors {
+  0% {
+   stroke: #754fa0;
+  }
+  20% {
+   stroke: #09b7bf;
+  }
+  40% {
+   stroke: #90d36b;
+  }
+  60% {
+   stroke: #f2d40d;
+  }
+  80% {
+   stroke: #fcb12b;
+  }
+  100% {
+   stroke: #ed1b72;
+  }
+ }
+ 
+ @keyframes colors {
+  0% {
+   stroke: #754fa0;
+  }
+  20% {
+   stroke: #09b7bf;
+  }
+  40% {
+   stroke: #90d36b;
+  }
+  60% {
+   stroke: #f2d40d;
+  }
+  80% {
+   stroke: #fcb12b;
+  }
+  100% {
+   stroke: #ed1b72;
+  }
+ }
+ 
+ .qp-circular-loader-path {
+  -webkit-animation-name: fillunfill, rot, colors;
+  animation-name: fillunfill, rot, colors;
+  -webkit-animation-duration: 1333ms, 5332ms, 5332ms;
+  animation-duration: 1333ms, 5332ms, 5332ms;
+  /* ARCTIME, 4*ARCTIME, 4*ARCTIME */
+  
+  -webkit-animation-iteration-count: infinite, infinite, infinite;
+  animation-iteration-count: infinite, infinite, infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1), steps(4), linear;
+  animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1), steps(4), linear;
+  -webkit-animation-play-state: running, running, running;
+  animation-play-state: running, running, running;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+ }

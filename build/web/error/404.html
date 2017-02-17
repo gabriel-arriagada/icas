@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>404</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#00BCD4"/>
+        <link rel='stylesheet' href='font/roboto.css'>    
+        <link href="font/material-icons.css" rel="stylesheet">
+        <style>
+            html, body {                
+                background-color: #00BCD4;   
+                font-family: 'Roboto', sans-serif;
+            }
+
+            .error{
+                color: white;
+                font-size: 200px;
+                margin-top: 8%;
+            }
+
+            .mensaje{
+                color: white;
+                font-size: 40px;
+            }
+
+            .header__menu-toggle {
+                background: none;
+                border: none;                                                
+                color: #e0f7fa;
+            }
+
+            a {
+                text-decoration: none !important;
+            }
+
+            @media(max-width: 800px){
+                .error{
+                    font-size: 150px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <a href="IndexClienteServlet" class="header__menu-toggle material-icons" >&#xE5C4;</a>   
+            <center>                
+                <div class="error">                    
+                    404
+                </div>                
+                <div class="mensaje">
+                    Lo sentimos. No pudimos encontrar esa página :(
+                </div>                      
+            </center>
+        </div>
+    </body>
+</html>
